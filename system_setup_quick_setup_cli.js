@@ -24,6 +24,7 @@ define([
         var service = currRecord.getValue("service");
         var travel = currRecord.getValue("travel");
         var serviceZone = currRecord.getValue("servicezone");
+        var setServiceZone = currRecord.getValue("setservicezone");
         var plannerboard = currRecord.getValue("plannerboard");
         var summaryCard = currRecord.getValue("summarycard");
         var messages = {
@@ -688,7 +689,7 @@ define([
                 if (isManager) {
                     values["custentity_cmms_is_service_manager"] = true;
                 }
-                if (primaryServiceZone) {
+                if (setServiceZone && primaryServiceZone) {
                     values["custentity_cmms_service_regions"] = primaryServiceZone;
                 }
                 if (password) {

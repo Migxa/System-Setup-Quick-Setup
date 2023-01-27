@@ -24,6 +24,10 @@
             container: 'systemSetupContainer'
         })
 
+        initialSetup.setHelpText({
+            help: "If checked, the script will configure all mandatory fields in the System Setup. It will also populate the fields that are almost always set up after the bundle install like Optional Mobile Tasks."
+        })
+
          var systemSetupField = form.addField({
             id:"systemsetuprecord",
             type:serverWidget.FieldType.SELECT,
@@ -36,15 +40,21 @@
             breakType : serverWidget.FieldBreakType.STARTCOL
         }); 
 
-        
+        systemSetupField.setHelpText({
+            help: "Select the ID of the System Setup record. You only need to populate this field if you are making changes to the System Setup record like 'Initial Mandatory Fields Setup', 'Rental Setup', 'Planner Board Views and Colors', etc. Creating demo records or modifying employee records doesn't require this field to be popualted, but it can't hurt to select the System Setup every single time just in case."
+        })
+
 
          var webAppField = form.addField({
             id:"webappversion",
-            type:serverWidget.FieldType.SELECT,
+            type:serverWidget.FieldType.TEXT,
             label: "Web App Version",
-            source: 'customlist_cmms_web_app_version',
             container: 'systemSetupContainer'
          })
+
+         webAppField.setHelpText({
+            help: "Write the Web App version (v1, v2, v3...). Populate this field if you want to set the Web App version in the SO Pipeline subtab of the System Setup. Note that 'Initial Mandatory Fields Setup' must be checked, for the Web App version to be updated."
+        })
 
          var plannerboard = form.addField({
             id:"plannerboard",
@@ -57,7 +67,7 @@
             breakType : serverWidget.FieldBreakType.STARTCOL
         }); 
 
-        plannerboard.setHelpText("Sets default Views, Technician Filters, Tile Fields, Tile Colors, and Filed Color Mappings.")
+        plannerboard.setHelpText("Sets Views, Technician Colors, Tile Colors, and Field Color Mappings.")
 
         // var summaryCard = form.addField({
         //     id:"summarycard",
@@ -81,6 +91,7 @@
             container: 'demorecords'
         })
 
+        demoEquip.setHelpText("Check this field if you want the script to create a demo Equipment. The script will use the values in the 'Service Zone', 'Demo Equipment Type Name', and 'Demo Make/Model Name' to create the Equipment Type, Make/Model and the Equipment itself.")
         
 
         var serviceZone = form.addField({
@@ -90,6 +101,8 @@
             container: 'demorecords',
             source: 'customrecord_cmms_service_region'
         })
+
+        serviceZone.setHelpText("Select exsting Service Zone or create a new one that the Equipment will be assigned to.")
 
         serviceZone.updateBreakType({
             breakType : serverWidget.FieldBreakType.STARTCOL
@@ -121,7 +134,7 @@
         })
 
         demoItems.setHelpText({
-            help: "This will create a 'Repair' and 'Travel' service items."
+            help: "This will create a 'Repair' and 'Travel' service items. If either field is empty, then the script will not create a Service item of that type. If you don't want to create a Travel service item, then make the 'Demo Travel Item Name' field blank."
         })
 
         demoItems.updateBreakType({
@@ -135,6 +148,8 @@
             container: 'demorecords'
         })
 
+        service.setHelpText("If 'Create Demo Service Items' is checked and this field is not blank, the script will create a new Service item with this name.")
+
         service.updateBreakType({
             breakType : serverWidget.FieldBreakType.STARTCOL
         }); 
@@ -147,6 +162,8 @@
             label: "Demo Travel Item Name",
             container: 'demorecords'
         })
+
+        travel.setHelpText("If 'Create Demo Service Items' is checked and this field is not blank, the script will create a new Travel item with this name. If 'System Setup Record' is provided, the script will also set the newly created Travel item as the default Travel item in the System Setup.")
 
         travel.defaultValue = "Travel"
         // Tech Setup ----------------------------------------------------------
@@ -166,7 +183,7 @@
         })
 
         employee.setHelpText({
-            help: "Select employees that you would like to turn into technicians or service manager (or both).",
+            help: "Select employees that you would like to update.",
         })
 
         
@@ -198,6 +215,17 @@
             help: "This will set 'Is Manager' for the selected employees.",
         })
 
+        var setServiceZone = form.addField({
+            id:"setservicezone",
+            type: serverWidget.FieldType.CHECKBOX,
+            label: 'Update Service Zone',
+            container: 'techcontainer',
+        })
+
+        setServiceZone.setHelpText({
+            help: "If checked, the script will take whatever is selected in the 'Primary Service Zone' field and update the selected employees with the following Service Zones. If this field is checked, but the Service Zone selection is empty, then the employees will be updated to have no Service Zones selected.",
+        })
+
         var primaryServiceZone = form.addField({
             id:"primaryservicezone",
             type: serverWidget.FieldType.MULTISELECT,
@@ -209,7 +237,7 @@
         
 
         primaryServiceZone.setHelpText({
-            help: "Select Service Zones that will be selected as primary on the technicians."
+            help: "If 'Update Service Zone' is checked, the selected Service Zones will be selected as Primary Service Region on the technicians."
         })
 
         var password = form.addField({
@@ -217,6 +245,10 @@
             type: serverWidget.FieldType.TEXT,
             label: 'Set Password',
             container: 'techcontainer',
+        })
+
+        password.setHelpText({
+            help: "If a value is provided, then the script will update the Web App password for the selected employees.",
         })
 
         var bins = form.addField({
@@ -246,6 +278,10 @@
             breakType : serverWidget.FieldBreakType.STARTCOL
         }); 
 
+        location.setHelpText({
+            help: "Choose the location that the bins should be created for.",
+        })
+
 
         // Rental ---------------------------------------------
 
@@ -260,6 +296,10 @@
              label: "Initial Rental Setup",
              container: 'rentalContainer'
          })
+
+         usesRental.setHelpText({
+            help: "Turns on the Rental feature and does basic rental setup that is needed for the Rental features to work.",
+        })
 
          var submitButton = form.addButton({
              label: "Submit",
