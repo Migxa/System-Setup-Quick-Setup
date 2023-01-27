@@ -1,4 +1,6 @@
-# System-Setup-Quick-Setup
+# CMMS Quick Setup
+## Setup
+1. Download the code as ZIP file
 2. Extract files from the ZIP file
 3. Open NetSuite
 4. Set up Client Script first
