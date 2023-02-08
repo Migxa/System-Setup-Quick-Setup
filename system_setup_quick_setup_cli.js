@@ -144,6 +144,10 @@ define([
                         "custrecord_cmms_firebase_server_token",
                         "AAAA1Au1DZ0:APA91bER836GHh95SnWwawE4aW7Ua__lqh0nvriFznBilG3ZUnJu7vnyFmoRLvSMaixwHUtliChTKTQpOBINqeygXHrHrfTpvGAF-SLWjKZb-W3dVsNt5i9GeuK51KXGvjoLNpfGEw3y"
                     );
+                    setFieldValue(
+                        "custrecord_cmms_start_app_blank_date",
+                        true
+                    );
                     setFieldText("custrecord_cmms_workshop_menu_items", [
                         "Service Orders",
                         "Parts",
